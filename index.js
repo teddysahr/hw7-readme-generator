@@ -38,7 +38,7 @@ const questions = [
     type: "list",
     message: "Choose a license.",
     name: "license",
-    choices: ["a", "b", "c", "d"],
+    choices: ["MIT", "GPL 3.0", "Apache 2.0", "BSD 3"],
   },
   {
     type: "input",
@@ -52,45 +52,40 @@ const questions = [
   },
 ];
 
-inquirer.prompt(questions).then((answers) => {
-  console.log(answers);
-  fs.writeFile(
-    "README.md",
-    `# ${answers.title}
-  ## Description
-  ${answers.description}
-  ## Table of Contents (Optional)
-  If your README is long, add a table of contents to make it easy for users to find what they need.
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Credits](#credits)
-  - [License](#license)
-  ## Installation
-  ${answers.installation}
-  ## Usage
-  ${answers.usage}
-  ## Contributions Guidelines
-  ${answers.contribution}
-  ## Test
-  ${answers.test}
-  ## License
-  
+function init() {
+  inquirer.prompt(questions).then((answers) => {
+    fs.writeFile(
+      "README.md",
+      `# ${answers.title}
+## Description
+${answers.description}
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributions](#contributions)
+- [Test](#test)
+- [License](#license)
+- [Questions](#questions)
+ ## Installation
+${answers.installation}
+## Usage
+${answers.usage}
+## Contributions
+${answers.contribution}
+## Test
+${answers.test}
+## License
+${answers.license}
+## Questions
+- GitHub Account: github.com/${answers.username}
+- email: ${answers.email}
+      
+      
+        `,
+      (err) =>
+        err ? console.error(err) : console.log("Success! Generating README.md!")
+    );
+  });
+}
 
-  ## Questions
-  - GitHub Username: ${answers.username}
-  - email: ${answers.email}
-
-
-  `,
-    (err) => (err ? console.error(err) : console.log("Success!"))
-  );
-});
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
 init();
